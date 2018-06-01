@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+    <title>Document</title>
+
+    <script src="src/jquery.js"></script>
+    <script src="src/utf.js"></script>
+    <script src="src/jquery.qrcode.js"></script>
+</head>
+<body>
+    <!-- 二维码生成的地方 -->
+    <div style="margin:auto;width:200px;margin-top:80px;" id="qrcodeTable"></div>                                        <!-- <img :src="smallroutineQrcode" alt="暂无图片"> -->
+    
+    <!-- 下载二维码的按钮 -->
+    <p  style="text-align:center" >
+          <a id="downloadewm" download="qrcode.jpg">下载二维码</a>
+    </p>
+</body>
+</html>
+
+<script>
+  
+console.log($)
+ 
+    //清空二维码
+    $('#qrcodeTable').html(""); 
+      //生成二维码
+    jQuery('#qrcodeTable').qrcode({
+        render   : "canvas",//设置渲染方式  
+        text	: 'https://www.baidu.com/',//连接要跳转的地方  也支持中文  中文的话直接在浏览器显示这个文章
+        width: 200,  
+        height: 200,
+        typeNumber: -1,            //计算模式
+        correctLevel: QRErrorCorrectLevel.M,//纠错等级
+        background: "#ffffff",    //背景颜色
+        foreground: "#000000",    //前景颜色
+        src: 'AAA.JPG'   //logo图片
+    });
+    
+    //生成下载的连接  动态给A标签添加下载事件
+    var canvas = $('#qrcodeTable').find("canvas").get(0);
+    console.log(canvas);  
+    try {//解决IE转base64时缓存不足，canvas转blob下载  
+        var blob = canvas.msToBlob();  
+        navigator.msSaveBlob(blob, 'qrcode.jpg');  
+    } catch (e) {//如果为其他浏览器，使用base64转码下载  
+            var url = canvas.toDataURL('image/jpeg');  
+            $("#downloadewm").attr('href', url);  
+    }  
+
+
+
+
+    
+
+
+</script>
